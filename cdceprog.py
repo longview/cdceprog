@@ -2,6 +2,8 @@
 #
 # cdceprog.py: A quick hack to program a CDCE913/925 on an I2C bus of a Linux system
 #
+#  Updated for Python3 by Robin Holm
+#
 #  Copyright (C) 2015-2017, Ingo Korb <ingo@akana.de>
 #  All rights reserved.
 #
@@ -62,7 +64,7 @@ for line in fd:
     # FIXME: Verify checksum
     if data[3] == 0:
         # copy data
-        for i in xrange(0, bytecount):
+        for i in range(0, bytecount):
             pllregs[addr + i] = data[i + 4]
     elif data[3] == 1:
         # end marker, do nothing
@@ -107,12 +109,12 @@ except IOError as e:
     exit(2)
 
 # write PLL settings
-for i in xrange(0x10, current_pll.register_count):
+for i in range(0x10, current_pll.register_count):
     if pllregs[i] != None:
         bus.write_byte_data(current_pll.address, 0x80 + i, pllregs[i])
 
 # write control register settings
-for i in xrange(0, 0x10):
+for i in range(0, 0x10):
     if pllregs[i] != None:
         bus.write_byte_data(current_pll.address, 0x80 + i, pllregs[i])
 
